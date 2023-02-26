@@ -64,7 +64,7 @@
                   </a>
                 </li>
                 <li>
-                  <a href="#">
+                  <a href="<?=URLROOT?>/admins/order">
                     <span class="icon"><i class="uil uil-comment"></i></span>
                     <span class="title">Orders</span>
                   </a>
@@ -100,7 +100,7 @@
             <div class="products">
               <div class="recent-orders">
                 <div class="card-header">
-                  <h2>Clients</h2>
+                  <h2>Orders</h2>
                 </div>
                 <table>
                   <thead>
@@ -109,23 +109,38 @@
                       <td>Price</td>
                       <td>Date</td>
                       <td>Status</td>
+                      <td>Delevery Date</td>
                       <td>Action</td>
                     </tr>
                   </thead>
                   <tbody>
                     <?php foreach($data['orders'] as $order) :?>
-                    <tr>
-                      <td><?php echo $order->full_name ?></td>
-                      <td>$<?php echo $order->grand_total ?></td>
-                      <td><?php echo $order->creation_date ?></td>
-                      <td><span class="status pending">Pending</span></td>
-                      <td>
-                        <button class="update">Confirm</button>
-                        <button class="delete">Reject</button>
-                      </td>
+                      <form method="POST">
+                        <tr>
+                          <td><?php echo $order->full_name ?></td>
+                          <td>$<?php echo $order->grand_total ?></td>
+                          <td><?php echo $order->creation_date ?></td>
+                          <td><span class="status <?php echo $order->status ?>"><?php echo $order->status ?></span></td>
+                          <?php if($order->status == 'Pending'): ?>
+                            <td><input type="date" name="delevery"></td>
+                            <td>
+                              <input type="submit" class="update" value="Confirm" formaction="<?php echo URLROOT . '/Admins/confirmOrder/' . $order->id ?>">
+                              <input type="submit" class="delete" value="Reject" formaction="<?php echo URLROOT . '/Admins/denyOrder/' . $order->id ?>">
+                              <a href="<?php echo URLROOT . '/admins/detail/' . $order->id ?>">check</a>
+                            </td>
+
+                          <?php elseif($order->status == 'Confirmed') : ?>
+                            <td><?php echo $order->delevery_date?></td>
+                            <td><a href="<?php echo URLROOT . '/admins/detail/' . $order->id ?>">check</a></td>
+                            
+                          <?php else :?>
+                            <td>xxxx-xx-xx</td>
+                            <td><a href="<?php echo URLROOT . '/admins/detail/' . $order->id ?>">check</a></td>
+                          <?php endif ;?>
+                          
                     </tr>
+                  </form>
                     <?php endforeach; ?>
-                    
                   </tbody>
                 </table>
         

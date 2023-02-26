@@ -80,15 +80,12 @@
 
       <div class="header-login flex">
       <?php if(isset($_SESSION['user_email'])) : ?>
+        Hello <?php echo $_SESSION['full_name']?>
         <a href="<?=URLROOT . '/pages/cart'?>"><i
           id="cart-box"
           aria-controls="cart-icon"
           class="uil uil-shopping-bag"
         ></i></a>
-
-        <div id="cart-icon" data-visible="false" class="cart-icon">
-          
-        </div>
 
         <!-- =================1111111111================== -->
         <?php else : ?>

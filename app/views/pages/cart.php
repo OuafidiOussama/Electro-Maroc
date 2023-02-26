@@ -32,43 +32,19 @@
               <td class="dis"><img src="<?= URLROOT . '/product/'. $cartpro->product_image;?>" alt=""></td>
               <td><?= $cartpro->product_name ;?></td>
               <td>$<?= $cartpro->product_price ;?></td>
+              <input type="hidden" name="u_pr[]" value="<?= $cartpro->product_price ;?>">
 
               <input type="hidden" name="qty[]" value="<?= $cartpro->quantity ?>">
               <input type="hidden" name="id[]" value="<?= $cartpro->product_id ?>">
               <td><?= $cartpro->quantity ;?></td>
               <td>$<?= $cartpro->total_price ;?></td>
+              <input type="hidden" name="t_pr[]" value="<?= $cartpro->total_price ;?>">
               <td><a href="<?= URLROOT . '/users/deleteFromCart/' . $cartpro->id ?>" id="confirm_del" style="color:black;"><i class="uil uil-trash"></i></a></td>
             </tr>
             <?php endforeach;?>
          
         </tbody>
       </table>
-
-      <script>
-      $('#confirm_del').on('click', function(e){
-        e.preventDefault();
-        const href = $(this).attr('href')
-        console.log(href);
-        Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-          }).then((result) => {
-            if (result.isConfirmed) {
-              window.location.href = href;
-              Swal.fire(
-                'Deleted!',
-                'Your file has been deleted.',
-                'success'
-              )
-            }
-          })
-      })
-    </script>
       
     </section>
 
@@ -94,6 +70,7 @@
             <div class="grid">
                 <button class="fs-poppins text-black bold-800 fs-300 bg-gray">Proceed to checkout</button>
             </div>
+            </script>
         </div>
         </form>
     </section>

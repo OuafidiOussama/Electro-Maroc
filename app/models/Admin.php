@@ -14,19 +14,66 @@
             return $res;
         }
         public function getOrderLim(){
-            $this->db->query('SELECT * FROM `order` LIMIT 4');
+            $this->db->query('SELECT * FROM `order` INNER JOIN client ON `order`.client_id = client.id LIMIT 4');
             
             $res = $this->db->resultSet();
 
             return $res;
         }
         public function getOrder(){
-            $this->db->query('SELECT `order`.*, client.full_name FROM `order` INNER JOIN client ON `order`.client_id = client.id');
+            $this->db->query('SELECT `order`.*, client.full_name FROM `order` INNER JOIN client ON `order`.client_id = client.id ORDER BY (creation_date) DESC');
             
             
             $res = $this->db->resultSet();
 
             return $res;
+        }
+        public function getOrderById($id){
+            $this->db->query('SELECT orderholder.*, client.full_name, product.reference, product.label, `order`.grand_total FROM orderholder 
+            INNER JOIN `order` ON orderholder.order_id = `order`.id
+            INNER JOIN product ON orderholder.product_id = product.id
+            INNER JOIN client ON `order`.client_id = client.id
+            WHERE `order_id` = :id');
+            $this->db->bind(':id', $id);
+            
+            $row = $this->db->single();
+            if($row){
+                return $row;
+            }else {
+                return false;
+            }
+        }
+
+        public function confirmOrder($data){
+            $this->db->query("UPDATE `order` 
+                              SET sending_date =  :sending,
+                                  delevery_date = :delevery,
+                                  status = :status
+                              WHERE id = :id");
+            $this->db->bind(':id', $data['id']);
+            $this->db->bind(':sending', $data['sending']);
+            $this->db->bind(':delevery', $data['delevery']);
+            $this->db->bind(':status', $data['status']);
+            if($this->db->execute()){
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        public function denyOrder($data){
+            $this->db->query("UPDATE `order` 
+                              SET sending_date =  :sending,
+                                  status = :status
+                              WHERE id = :id");
+            $this->db->bind(':id', $data['id']);
+            $this->db->bind(':sending', $data['sending']);
+            $this->db->bind(':status', $data['status']);
+            if($this->db->execute()){
+                return true;
+            } else {
+                return false;
+            }
         }
 
         //Find User by email

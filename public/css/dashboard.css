@@ -411,7 +411,7 @@ body{
     text-align: center;
 }
 
-.status.delivered{
+.status.Confirmed{
     padding: 4px 8px;
     background: #8de02c;
     color: white;
@@ -419,7 +419,7 @@ body{
     font-size: 14px;
     font-weight: 500;
 }
-.status.pending{
+.status.Pending{
     padding: 4px 8px;
     background: #f9ca3f;
     color: white;
@@ -435,7 +435,7 @@ body{
     font-size: 14px;
     font-weight: 500;
 }
-.status.returned{
+.status.Denied{
     padding: 4px 8px;
     background: #f00;
     color: white;

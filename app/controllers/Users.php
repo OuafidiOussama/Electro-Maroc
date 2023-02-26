@@ -207,12 +207,14 @@
         }
 
         public function createUserSession($user){
+            $_SESSION['full_name'] = $user->full_name;
             $_SESSION['user_id']= $user->id;
             $_SESSION['user_email'] = $user->email;
             redirect('');
         }
 
         public function logout(){
+            unset($_SESSION['full_name']);
             unset($_SESSION['user_id']);
             unset($_SESSION['user_email']);
             session_destroy();
@@ -273,6 +275,8 @@
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $products = $_POST['id'];
                 $quantity = $_POST['qty'];
+                $unite = $_POST['u_pr'];
+                $tot = $_POST['t_pr'];
                 // echo '<pre>';
                 // print_r($products);
                 // print_r($quantity);
@@ -282,7 +286,9 @@
                 $data = [
                     'id_client' => $_SESSION['user_id'],
                     'creation_date' => date('d-m-y'),
-                    'grand' => $_POST['grand']
+                    'grand' => $_POST['grand'],
+                    'unite' => $unite,
+                    'tot' => $tot,
                 ];
                 // echo '<pre>';
                 // print_r($data);
@@ -296,6 +302,8 @@
                             'id_product' => $products[$i],
                             'id_commande' => $idCommande,
                             'quantite' => $quantity[$i],
+                            'unite' => $unite[$i],
+                            'tot' => $tot[$i]
                         ];
                         $this->userModel->addProductCommande($data);
                     }

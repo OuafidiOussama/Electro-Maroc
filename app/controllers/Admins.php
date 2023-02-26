@@ -11,6 +11,7 @@
             $p_total = $this->productModel->getProduct();
             $c_total = $this->categoryModel->getCategory();
             $u_total = $this->adminModel->getUser();
+            $o_total = $this->adminModel->getOrder();
             $order = $this->adminModel->getOrderLim();
 
             $data = [
@@ -18,6 +19,7 @@
                 'p_total' => $p_total,
                 'c_total' => $c_total,
                 'u_total' => $u_total,
+                'o_total' => $o_total,
                 'order' => $order
             ];
             // print_r($data['order']);
@@ -58,6 +60,22 @@
             ];
 
             $this->view('admins/category',$data);
+        }
+
+
+        public function detail($id){
+            $orderId = $this->adminModel->getOrderById($id);
+
+            $data = [
+                'order' => $orderId->full_name,
+                'label' => $orderId->label,
+                'unite' => $orderId->unite_price,
+                'qty' => $orderId->qty,
+                'sub' => $orderId->total_price,
+                'reference' => $orderId->reference,
+                'grand' => $orderId->grand_total,
+            ];
+            $this->view('admins/detail', $data);
         }
 
         public function login(){
@@ -126,6 +144,43 @@
                 $this->view('auths/admin_login', $data);
             }
         }
+
+
+        public function confirmOrder($id){
+            if($_SERVER['REQUEST_METHOD'] == 'POST'){
+                $data = [
+                    'id' => $id,
+                    'sending' => date('d-m-y'),
+                    'delevery' => date($_POST['delevery']),
+                    'status' => 'Confirmed'
+                ];
+                if($this->adminModel->confirmOrder($data)){
+                    redirect('admins/order');
+                } else{
+                    die('Something Went Wrong');
+
+                }
+            }
+        }
+        public function denyOrder($id){
+            if($_SERVER['REQUEST_METHOD'] == 'POST'){
+                $data = [
+                    'id' => $id,
+                    'sending' => date('d-m-y'),
+                    'status' => 'Denied'
+                ];
+                if($this->adminModel->denyOrder($data)){
+                    redirect('admins/order');
+                } else{
+                    die('Something Went Wrong');
+
+                }
+            }
+        }
+
+
+
+
 
         public function createAdminSession($admin){
             $_SESSION['admin_id']= $admin->id;

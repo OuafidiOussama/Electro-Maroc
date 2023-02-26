@@ -53,7 +53,9 @@
         }
 
         public function getCartProducts(){
-            $this->db->query('SELECT * FROM cart');
+            $id = $_SESSION['user_id'];
+            $this->db->query('SELECT * FROM cart WHERE client_id = :id');
+            $this->db->bind(':id', $id);
 
             $res = $this->db->resultSet();
 
@@ -98,10 +100,12 @@
         }
 
         public function addProductCommande($data) {
-            $this->db->query("INSERT INTO orderholder(product_id, order_id, qty) VALUES (:id_p, :id_c, :quantite)");
+            $this->db->query("INSERT INTO orderholder(product_id, order_id, qty, unite_price, total_price) VALUES (:id_p, :id_c, :quantite, :unite, :tot)");
             $this->db->bind(':id_p', $data['id_product']);
             $this->db->bind(':id_c', $data['id_commande']);
             $this->db->bind(':quantite', $data['quantite']);
+            $this->db->bind(':unite', $data['unite']);
+            $this->db->bind(':tot', $data['tot']);
             if ($this->db->execute()) {
                 return true;
             } else {

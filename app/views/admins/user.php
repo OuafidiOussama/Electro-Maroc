@@ -109,6 +109,7 @@
                       <td>Phone Number</td>
                       <td>Email</td>
                       <td>Address</td>
+                      <td>City</td>
                     </tr>
                   </thead>
                   <tbody>
@@ -118,6 +119,7 @@
                       <td><?php echo $user->mobile?></td>
                       <td><?php echo $user->email?></td>
                       <td><?php echo $user->address?></td>
+                      <td><?php echo $user->city?></td>
                     </tr>
                     <?php endforeach; ?>
                     

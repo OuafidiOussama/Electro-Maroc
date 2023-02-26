@@ -63,7 +63,7 @@
                   </a>
                 </li>
                 <li>
-                  <a href="#">
+                  <a href="<?=URLROOT?>/admins/order">
                     <span class="icon"><i class="uil uil-comment"></i></span>
                     <span class="title">Orders</span>
                   </a>

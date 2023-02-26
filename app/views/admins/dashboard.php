@@ -61,7 +61,7 @@
                   </a>
                 </li>
                 <li>
-                  <a href="#">
+                  <a href="<?=URLROOT?>/admins/order">
                     <span class="icon"><i class="uil uil-comment"></i></span>
                     <span class="title">Orders</span>>
                   </a>
@@ -122,7 +122,7 @@
             </div>
             <div class="card">
               <div>
-                <div class="numbers"><?php echo count($data['order'])?></div>
+                <div class="numbers"><?php echo count($data['o_total'])?></div>
                 <div class="card-name">Orders</div>
               </div>
               <div class="iconbx">
@@ -135,7 +135,7 @@
               <div class="recent-orders">
                 <div class="card-header">
                   <h2>Recent Orders</h2>
-                  <a href="<?=URLROOT . '/admins/product' ;?>" class="btn">View All</a>
+                  <a href="<?=URLROOT . '/admins/order' ;?>" class="btn">View All</a>
                 </div>
                 <table>
                   <thead>
@@ -149,8 +149,8 @@
                   <tbody>
                     <?php foreach($data['order'] as $order) :?>
                     <tr>
-                      <td><?php echo $order->client_id ?></td>
-                      <td><?php echo $order->total_price ?></td>
+                      <td><?php echo $order->full_name ?></td>
+                      <td>$<?php echo $order->grand_total ?></td>
                       <td><?php echo $order->creation_date ?></td>
                       <td><span class="status delivered">Delivered</span></td>
                     </tr>
