@@ -232,22 +232,35 @@
                 //having the IMG
                 
                 $total = floatval(str_replace('$', '', $_POST['price'])) * $_POST['qty'];
-                $data = [
-                     'label' => trim($_POST['label']), 
-                     'price' => trim($_POST['price']), 
-                     'reference' => trim($_POST['reference']),
-                     'total' => $total,
-                     'qty' => trim($_POST['qty']), 
-                     'client_id' => $_SESSION['user_id'],
-                     'product_id' => $id,
+                $checkCart = $this->userModel->checkCart($id);
+                if ($checkCart) {
+                    $totalu = floatval(str_replace('$', '', $_POST['price'])) * ($checkCart->quantity + trim($_POST['qty']));
+                    $data = [
+                        'qty' => $checkCart->quantity + trim($_POST['qty']),
+                        'product_id' => $id,
+                        'total' => $totalu
                     ];
-
+                    if($this->userModel->update($data)){
+                        redirect('pages/shop');
+                    } else{
+                        die('Something Went Wrong');
+                    }
+                } else {
+                    $data = [
+                        'label' => trim($_POST['label']), 
+                        'price' => trim($_POST['price']), 
+                        'reference' => trim($_POST['reference']),
+                        'total' => $total,
+                        'qty' => trim($_POST['qty']), 
+                        'client_id' => $_SESSION['user_id'],
+                        'product_id' => $id,
+                    ];
                     if($this->userModel->addToCart($data)){
                         redirect('pages/shop');
                     } else{
                         die('Something Went Wrong');
-
                     }
+                }
             }else{
                 $data = [
                     'label' => '', 
@@ -285,7 +298,7 @@
                 // $total = $this->commandeModel->totalPrice();
                 $data = [
                     'id_client' => $_SESSION['user_id'],
-                    'creation_date' => date('d-m-y'),
+                    'creation_date' => date('y-m-d'),
                     'grand' => $_POST['grand'],
                     'unite' => $unite,
                     'tot' => $tot,

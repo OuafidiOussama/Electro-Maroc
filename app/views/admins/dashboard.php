@@ -141,8 +141,8 @@
                   <thead>
                     <tr>
                       <td>Client</td>
-                      <td>Price</td>
-                      <td>Payment</td>
+                      <td>Grand Total</td>
+                      <td>Order Date</td>
                       <td>Status</td>
                     </tr>
                   </thead>

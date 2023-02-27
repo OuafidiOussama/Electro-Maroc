@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -100,7 +102,7 @@
             <div class="products">
               <div class="recent-orders">
                 <div class="card-header">
-                  <h2><?php echo $data['order']?></h2>
+                  <h2><?php echo $data['client'] ?></h2>
                 </div>
                 <table>
                   <thead>
@@ -113,13 +115,15 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                    <td><img src="<?php echo URLROOT . '/product/' . $data['reference']?>" alt="" width="100px"></td>
-                    <td><?= $data['label'] ?></td>
-                    <td>$<?= $data['unite']?></td>
-                    <td><?= $data['qty'] ?></td>
-                    <td>$<?= $data['sub'] ?></td>
-                    </tr>
+                    <?php foreach($data['orders'] as $order) : ?>
+                      <tr>
+                      <td><img src="<?php echo URLROOT . '/product/' . $order->reference?>" alt="" width="100px"></td>
+                      <td><?= $order->label ?></td>
+                      <td>$<?= $order->unite_price?></td>
+                      <td><?= $order->qty ?></td>
+                      <td>$<?= $order->total_price ?></td>
+                      </tr>
+                    <?php endforeach; ?>
                   </form>
                   </tbody>
                 </table>

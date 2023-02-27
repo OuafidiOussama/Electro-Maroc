@@ -33,13 +33,24 @@
             INNER JOIN `order` ON orderholder.order_id = `order`.id
             INNER JOIN product ON orderholder.product_id = product.id
             INNER JOIN client ON `order`.client_id = client.id
-            WHERE `order_id` = :id');
+            WHERE orderholder.order_id = :id');
             $this->db->bind(':id', $id);
             
+            $row = $this->db->resultSet();
+                return $row;
+            
+        }
+        public function getUserAndTotal($id){
+            $this->db->query('SELECT (order_id), client.full_name, `order`.grand_total FROM `orderholder` 
+            INNER JOIN `order` ON orderholder.order_id = `order`.id 
+            INNER JOIN client ON `order`.client_id = client.id
+            WHERE orderholder.order_id = :id');
+            $this->db->bind(':id', $id);
+
             $row = $this->db->single();
             if($row){
                 return $row;
-            }else {
+            } else {
                 return false;
             }
         }

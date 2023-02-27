@@ -122,4 +122,25 @@
             $this->db->execute();
         }
     
+        public function checkCart($id) {
+            $this->db->query("SELECT * FROM cart WHERE product_id = :id");
+            $this->db->bind(':id', $id);
+            $row = $this->db->single();
+            if ($this->db->rowCount() > 0) {
+                return $row;
+            } else {
+                return false;
+            }
+        }
+        public function update($data) {
+            $this->db->query("UPDATE `cart` SET `quantity`= :qty, total_price = :total WHERE product_id = :id");
+            $this->db->bind(':id', $data['product_id']);
+            $this->db->bind(':qty', $data['qty']);
+            $this->db->bind(':total', $data['total']);
+            if ($this->db->execute()) {
+                return true;
+            } else {
+                return false;
+            }
+        }
     }

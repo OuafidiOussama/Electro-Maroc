@@ -64,16 +64,14 @@
 
 
         public function detail($id){
-            $orderId = $this->adminModel->getOrderById($id);
+            $orders = $this->adminModel->getOrderById($id);
+            $user = $this->adminModel->getUserAndTotal($id);
 
             $data = [
-                'order' => $orderId->full_name,
-                'label' => $orderId->label,
-                'unite' => $orderId->unite_price,
-                'qty' => $orderId->qty,
-                'sub' => $orderId->total_price,
-                'reference' => $orderId->reference,
-                'grand' => $orderId->grand_total,
+                
+                'orders' => $orders,
+                'grand' => $user->grand_total,
+                'client' => $user->full_name
             ];
             $this->view('admins/detail', $data);
         }
@@ -150,7 +148,7 @@
             if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 $data = [
                     'id' => $id,
-                    'sending' => date('d-m-y'),
+                    'sending' => date('y-m-d'),
                     'delevery' => date($_POST['delevery']),
                     'status' => 'Confirmed'
                 ];
@@ -166,7 +164,7 @@
             if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 $data = [
                     'id' => $id,
-                    'sending' => date('d-m-y'),
+                    'sending' => date('y-m-d'),
                     'status' => 'Denied'
                 ];
                 if($this->adminModel->denyOrder($data)){

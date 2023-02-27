@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -106,7 +108,7 @@
                   <thead>
                     <tr>
                       <td>Client Name</td>
-                      <td>Price</td>
+                      <td>Grand Total</td>
                       <td>Date</td>
                       <td>Status</td>
                       <td>Delevery Date</td>
