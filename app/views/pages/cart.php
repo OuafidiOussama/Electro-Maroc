@@ -21,25 +21,33 @@
             <td>Price</td>
             <td>Quantity</td>
             <td>Subtotal</td>
+            <td>Update</td>
             <td>Delete</td>
           </tr>
         </thead>
         <tbody>
-          <form action="<?php echo URLROOT . '/Users/sendOrder' ;?>" method="POST">
+          <form method="POST">
 
             <?php foreach($data['cProduct'] as $cartpro):?>
             <tr>
               <td class="dis"><img src="<?= URLROOT . '/product/'. $cartpro->product_image;?>" alt=""></td>
               <td><?= $cartpro->product_name ;?></td>
               <td>$<?= $cartpro->product_price ;?></td>
+              <input type="hidden" value="<?= $cartpro->product_price ;?>" name="price">
               <input type="hidden" name="u_pr[]" value="<?= $cartpro->product_price ;?>">
 
               <input type="hidden" name="qty[]" value="<?= $cartpro->quantity ?>">
               <input type="hidden" name="id[]" value="<?= $cartpro->product_id ?>">
-              <td><?= $cartpro->quantity ;?></td>
-              <td>$<?= $cartpro->total_price ;?></td>
-              <input type="hidden" name="t_pr[]" value="<?= $cartpro->total_price ;?>">
-              <td><a href="<?= URLROOT . '/users/deleteFromCart/' . $cartpro->id ?>" id="confirm_del" style="color:black;"><i class="uil uil-trash"></i></a></td>
+              
+
+                <td><input type="number" name="qty" value="<?= $cartpro->quantity ;?>"></td>
+                
+                <td>$<?= $cartpro->total_price ;?></td>
+                <input type="hidden" name="t_pr[]" value="<?= $cartpro->total_price ;?>">
+                <td><input type="submit" formaction="<?= URLROOT . '/users/updateCart/' . $cartpro->id ?>" style="color:black;" value="UPDATE"></td>
+                <td><a href="<?= URLROOT . '/users/deleteFromCart/' . $cartpro->id ?>" id="confirm_del" style="color:black;"><i class="uil uil-trash"></i></a></td>
+
+
             </tr>
             <?php endforeach;?>
          
@@ -68,12 +76,30 @@
             <tbody>
             </table>
             <div class="grid">
-                <button class="fs-poppins text-black bold-800 fs-300 bg-gray">Proceed to checkout</button>
+                <button type="button" id="checkout" class="fs-poppins text-black bold-800 fs-300 bg-gray" >Proceed to checkout</button>
+
             </div>
-            </script>
         </div>
-        </form>
+        
     </section>
+
+<div class="popcont hide">
+    <section class="pop">
+    <?php foreach($data['cProduct'] as $cartpro):?>
+        <div class="checkcont">
+          <h1><?= $cartpro->product_name ;?></h1>
+          <p>$<?= $cartpro->product_price ;?> x <?= $cartpro->quantity ?></p>
+          <h2>$<?= $cartpro->total_price ;?></h2>
+          
+        </div>
+    <?php endforeach;?>
+    <div class="inputs">
+      <input type="submit" value="Confirm" formaction="<?php echo URLROOT . '/Users/sendOrder' ;?>">
+      <input type="button" id="cancelor" value="Cancel">
+    </div>
+    </section>
+</div>
+    </form>
 
     <!-- ===============================Cart Section=================== -->
     <?php require APPROOT . '/views/inc/footer.php';?>

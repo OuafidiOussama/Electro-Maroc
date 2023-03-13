@@ -80,6 +80,26 @@
             ];
             $this->view('pages/shop', $data);
         }
+        public function check(){
+            $orders = $this->userModel->getOrder();
+            
+            $data=[
+                'orders' => $orders
+                
+            ];
+            $this->view('pages/check', $data);
+        }
+        public function details($id){
+            $orders = $this->userModel->getOrderById($id);
+            $user = $this->userModel->getUserAndTotal($id);
+
+            $data = [
+                
+                'orders' => $orders,
+                'grand' => $user->grand_total,
+            ];
+            $this->view('pages/details', $data);
+        }
         
         public function selectByCat($idCat = NULL) {
             $categories = $this->categoryModel->getCategory();

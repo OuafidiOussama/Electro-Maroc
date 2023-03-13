@@ -129,3 +129,16 @@
 // document.addEventListener('DOMContentLoaded', ()=>{
 //   updateCartUI()
 // })
+
+
+
+const popBtn = document.querySelector("#checkout")
+const popMenu = document.querySelector(".popcont")
+const popcancel = document.querySelector("#cancelor")
+
+popcancel.addEventListener("click", ()=>{
+    popMenu.classList.add('hide')
+})
+popBtn.addEventListener('click', ()=>{
+    popMenu.classList.remove('hide')
+})

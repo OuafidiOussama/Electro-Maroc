@@ -88,6 +88,7 @@
                 return false;
             }
         }
+        
 
         public function createCommande($data) {
             $this->db->beginTransaction();
@@ -133,12 +134,63 @@
             }
         }
         public function update($data) {
-            $this->db->query("UPDATE `cart` SET `quantity`= :qty, total_price = :total WHERE product_id = :id");
+            $this->db->query("UPDATE cart SET quantity= :qty, total_price = :total WHERE product_id = :id");
             $this->db->bind(':id', $data['product_id']);
             $this->db->bind(':qty', $data['qty']);
             $this->db->bind(':total', $data['total']);
             if ($this->db->execute()) {
                 return true;
+            } else {
+                return false;
+            }
+        }
+        public function updateCart($data) {
+            $this->db->query("UPDATE cart SET quantity= :qty, total_price = :total WHERE id= :id");
+            $this->db->bind(':id', $data['product_id']);
+            $this->db->bind(':qty', $data['qty']);
+            $this->db->bind(':total', $data['total']);
+            if ($this->db->execute()) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        public function getOrder(){
+            $id = $_SESSION['user_id'];
+            $this->db->query("SELECT * FROM `order` WHERE client_id = :id");
+            $this->db->bind(':id', $id);
+
+            $row = $this->db->resultSet();
+
+            if($row){
+                return $row;
+            }else{
+                return false;
+            }
+        }
+        public function getOrderById($id){
+            $this->db->query('SELECT orderholder.*, client.full_name, product.reference, product.label, `order`.grand_total FROM orderholder 
+            INNER JOIN `order` ON orderholder.order_id = `order`.id
+            INNER JOIN product ON orderholder.product_id = product.id
+            INNER JOIN client ON `order`.client_id = client.id
+            WHERE orderholder.order_id = :id');
+            $this->db->bind(':id', $id);
+            
+            $row = $this->db->resultSet();
+                return $row;
+            
+        }
+        public function getUserAndTotal($id){
+            $this->db->query('SELECT (order_id), client.full_name, `order`.grand_total FROM `orderholder` 
+            INNER JOIN `order` ON orderholder.order_id = `order`.id 
+            INNER JOIN client ON `order`.client_id = client.id
+            WHERE orderholder.order_id = :id');
+            $this->db->bind(':id', $id);
+
+            $row = $this->db->single();
+            if($row){
+                return $row;
             } else {
                 return false;
             }

@@ -284,6 +284,26 @@
             }
         }
 
+        public function updateCart($id){
+
+            if($_SERVER['REQUEST_METHOD'] == 'POST'){
+            $total = $_POST['price']*$_POST['qty'];
+
+            $data = [
+                'qty' => $_POST["qty"],
+                'total' => $total,
+                'product_id' => $id,
+            ];
+                
+
+            if($this->userModel->updateCart($data)){
+                redirect('pages/cart', $data);
+            } else {
+                die("Something Went Wrong !!!");
+            }
+        }
+        }
+
         public function sendOrder() {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $products = $_POST['id'];
@@ -329,4 +349,7 @@
                 }
             }
         }
+
+
+
     }

@@ -80,7 +80,7 @@
 
       <div class="header-login flex">
       <?php if(isset($_SESSION['user_email'])) : ?>
-        Hello <?php echo $_SESSION['full_name']?>
+        <a href="<?= URLROOT .'/pages/check'?>">Hello <?php echo $_SESSION['full_name']?></a>
         <a href="<?=URLROOT . '/pages/cart'?>"><i
           id="cart-box"
           aria-controls="cart-icon"
